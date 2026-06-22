@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import io
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from predict import predict_image
 
@@ -12,6 +13,11 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+app.mount(
+    "/heatmaps",
+    StaticFiles(directory="heatmaps"),
+    name="heatmaps"
 )
 @app.get("/")
 def home():
